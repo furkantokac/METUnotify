@@ -1,6 +1,4 @@
-# METUnotify
-
-Copyright (c) 25.02.2015, METUnotify
+Copyright (c) 25.02.2015, METUnotify.py, appIndicator.py, data.py, METUnotifyIcons
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

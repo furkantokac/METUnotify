@@ -17,7 +17,7 @@ print "P.ID:",os.getpid()
 
 username  = data.getup(0)
 password  = data.getup(1)
-browser = mechanize.Browser()
+browser = mechanize.Browser() # Browser which we handle our stuffs
 reFreq = 60 # Refresh frequency as second
 icon = 1 
 ka = 0 # Will be variable of subprocess of appIndicator.py
