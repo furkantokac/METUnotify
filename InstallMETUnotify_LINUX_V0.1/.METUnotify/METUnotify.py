@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import mechanize
 import subprocess, data, os
-from time import time
+from time import time, sleep
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +34,7 @@ def checkConnection(reference='https://horde.metu.edu.tr/'):
    exit(0)
 
 def checkLogin():
-   if not loginAccounts():
+   if not loginEmail() or not loginQuota():
       os.system('notify-send -i /usr/share/icons/METUnotifyIcons/fail.png "Login Fail" "Please check username and password."')
       print "Login failed.\nPlease check username and password."
       exit(0)
@@ -55,8 +55,8 @@ def returnNums(s):# Returns list of numbers in string
          num = ""
    return numList
 
-def loginAccounts(): # Return 1 if login successful
-   print "loginAccounts"
+def loginEmail(): # Return 1 if login successful
+   print "loginEmail"
    # EMAIL LOGIN
    browser.open("https://horde.metu.edu.tr/login.php")
    browser.select_form(nr = 0)
@@ -68,7 +68,12 @@ def loginAccounts(): # Return 1 if login successful
    if not "frameset" in resp:
       print "Email login fail."
       return 0 # fail
-   
+   else:
+      print "Email login successful."
+      return 1 # successful
+
+def loginQuota():
+   print "loginQuota"
    # QUOTA LOGIN
    browser.open("https://login.metu.edu.tr/cas/login")
    browser.select_form(nr = 0)
@@ -81,9 +86,8 @@ def loginAccounts(): # Return 1 if login successful
       print "Quota login fail."
       return 0 # fail
    else:
-      print "Quota and Email login successfull."
+      print "Quota login successfull."
       return 1 # successfull
-   
 
 def checkMail(): # Returns number of new email/s
    print "checkMail"
@@ -100,15 +104,29 @@ def checkMail(): # Returns number of new email/s
 
 def leftQuota():
    print "leftQuota"
-   #checkConnection('http://net.ncc.metu.edu.tr/kota/kota_intranet.php')
-   resp = browser.open('http://net.ncc.metu.edu.tr/kota/kota_intranet.php')
-   resp = resp.read()
-   resp = resp.split("(approximately) ")[1]
-   resp = resp.split(".")[0]
-   os.system('notify-send -i /usr/share/icons/METUnotifyIcons/quota.png "Left Quota" "'+resp+'"')
-   print "left quota", resp
-   return resp
-
+   try:
+      resp = browser.open('http://net.ncc.metu.edu.tr/kota/kota_intranet.php')
+      resp = resp.read()
+      resp = resp.split("(approximately) ")[1]
+      resp = resp.split(".")[0]
+      os.system('notify-send -i /usr/share/icons/METUnotifyIcons/quota.png "Left Quota" "'+resp+'"')
+      print "left quota", resp
+      return resp
+   except:
+      pass
+   
+   loginQuota()
+   try:
+      resp = browser.open('http://net.ncc.metu.edu.tr/kota/kota_intranet.php')
+      resp = resp.read()
+      resp = resp.split("(approximately) ")[1]
+      resp = resp.split(".")[0]
+      os.system('notify-send -i /usr/share/icons/METUnotifyIcons/quota.png "Left Quota" "'+resp+'"')
+      print "left quota", resp
+      return resp
+   except:
+      return "-1"
+   
 # When pressed checknow, check email and do what it should do
 # if everything is ok, return 1
 def handleCheck():
@@ -167,13 +185,14 @@ def handleIcon():
       data.set("icon", icon)
       print "Icon set", icon
       ka.kill()
-      ka = subprocess.Popen(['python', 'appIndicator.pyc'])
+      ka = subprocess.Popen(['python', 'appIndicator.py'])
    return 1
 
 # it handle delay and things which should be done during delay
 def handleDelay():
    timeout = time() + reFreq
    while timeout > time():
+      sleep(1.5)
       handleCheck()
       handleIcon()
       handleQuota()
@@ -185,7 +204,7 @@ def main():
    checkLogin()
    
    global ka # subprocess of appIndicator.py
-   ka = subprocess.Popen(['python','appIndicator.pyc'])
+   ka = subprocess.Popen(['python','appIndicator.py'])
    
    while True:
       handleChecking()
