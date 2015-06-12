@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import os
+
 defaultStr = "pid.0.check.0.quota.0.icon.1.quit.0.mail.0."
 fileName = "data.txt"
 
@@ -41,11 +43,16 @@ def setAllZero():
    fo.close()
    
 def getup(v=0):
-   fo = open(".uspw", "r")
-   line1 = fo.readline()
-   line2 = fo.readline()
-   fo.close()
-   if v == 0:
-      return line1[:-1]
-   else:
-      return line2[:-1]
+   try:
+      fo = open(".uspw", "r")
+      line1 = fo.readline()
+      line2 = fo.readline()
+      fo.close()
+      if v == 0:
+         return line1[:-1]
+      else:
+         return line2[:-1]
+   except:
+      print ".uspw couldn't find."
+      os.system('notify-send -i /usr/share/icons/METUnotifyIcons/fail.png "Login Fail" "Please check username and password."')
+      exit(0)
