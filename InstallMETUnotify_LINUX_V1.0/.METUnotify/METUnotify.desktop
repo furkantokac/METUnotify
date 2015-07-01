@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=METUnotify
+Comment=
+Exec=python ./.METUnotify/METUnotify.py
+Icon=/usr/share/icons/METUnotifyIcons/METUnotifyIcon.png
+Terminal=false
+Type=Application
+StartupNotify=true
