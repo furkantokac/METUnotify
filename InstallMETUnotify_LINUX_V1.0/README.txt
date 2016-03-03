@@ -9,7 +9,7 @@ Please make sure that you are online.
 ################################################
 <------------------INSTALL-------------------->
 If you have missing libraries to use program, they will be automatically downloaded.
-Installing:
+Installiation:
 1-Open Terminal
 2-Go to path of "InstallMETUnotify" directory. (directory which you open the README.txt)
 3-Run following command
@@ -19,7 +19,7 @@ Enjoy :)
 
 ################################################
 <-----------CREATE ICON TO DESKTOP-------------->
-If you delete your icon from desktop, don't be worry. Do followings:
+If you delete your icon from desktop, don't worry. Do the followings:
 1-Open Terminal
 2-Go to path of "InstallMETUnotify" directory. (directory which you open the README.txt)
 3-Run following command
