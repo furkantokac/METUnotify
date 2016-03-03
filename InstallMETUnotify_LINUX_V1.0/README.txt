@@ -1,6 +1,6 @@
 V1.0 Stable
 ################################################
-<------------DURING INSTALLING----------------->
+<------------DURING INSTALLATION----------------->
 1-Packet manager of system will be updated.
 2-Missing libraries will be downloaded.
 3-Program will be installed.
